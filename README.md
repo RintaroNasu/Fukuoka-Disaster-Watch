@@ -81,5 +81,5 @@ npm run start:dev
 ・フロントエンド: Next.js<br>
 ・バックエンド: Nest.js<br>
 ・データベース: Postgres<br>
-・ORM: Prisma
+・ORM: Prisma<br>
 ・使用ライブラリ: Leaflet
