@@ -1,5 +1,5 @@
-export const getPolygon = async () => {
-  const url = "http://localhost:8000/polygon";
+export const getTsunami= async () => {
+  const url = "http://localhost:8000/tsunami";
 
   const data = await fetch(url, {
     method: "GET",
