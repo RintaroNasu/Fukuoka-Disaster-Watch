@@ -1,18 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { getTsunami } from "@/utils/getTsunami";
+import { TsunamiData } from "@/utils/type";
 
 import { useLeafletMap } from "@/hooks/useLeafletMap";
+
 import "leaflet/dist/leaflet.css";
 
 export const LeafletMap = () => {
-  const mapRef = useLeafletMap([33.5902, 130.4207]);
+  const [tsunami, setTsunami] = useState<TsunamiData>([]);
+
+  const mapRef = useLeafletMap([33.5902, 130.4207], tsunami);
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getTsunami();
+      const json = await getTsunami();
+      setTsunami(json);
     };
     getData();
   }, []);
