@@ -13,9 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Polygon {
+model Fukuoka_water_info {
   id    Int     @id @default(autoincrement())
-  name  String
-  geometry String
+  prefecture     String
+  prefecture_code String
+  flood_level    String
+  geometry       Json
 }
 
