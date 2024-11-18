@@ -8,8 +8,10 @@ export default function Home() {
   return (
     <>
       <div className="relative">
-        <div className="fixed w-full z-[3000] flex justify-center text-3xl font-semibold bg-[#0f1b2a] text-white p-4">福岡災害予測アプリ</div>
-        <LeafletMap />
+        <div className="fixed top-0 right-0 w-full z-[3000] flex justify-center text-3xl font-semibold bg-[#0f1b2a] text-white p-4">福岡災害予測アプリ</div>
+        <div className="mt-16">
+          <LeafletMap />
+        </div>
         <SearchConditionModal />
       </div>
     </>
