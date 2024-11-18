@@ -5,7 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Coordinate } from "@/utils/type";
 
-const useLeafletMap = (center: Coordinate, polygonData: Coordinate[]) => {
+const useLeafletMap = (center: Coordinate) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,24 +16,11 @@ const useLeafletMap = (center: Coordinate, polygonData: Coordinate[]) => {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      if (polygonData.length > 0) {
-        const polygon = L.polygon(polygonData, {
-          color: "blue",
-          fillColor: "#f03",
-          fillOpacity: 0.5,
-        }).addTo(map);
-
-        return () => {
-          polygon.remove();
-          map.remove();
-        };
-      }
-
       return () => {
         map.remove();
       };
     }
-  }, [center, polygonData]);
+  }, [center]);
 
   return mapRef;
 };

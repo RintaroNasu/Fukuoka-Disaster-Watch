@@ -18,12 +18,17 @@ export const SearchConditionModal = () => {
         </span>
       </button>
       <Modal className="w-[800px] h-[450px] px-6 py-2" isOpen={isSearchModalOpen} onClose={onClickSearchModalCloseButton}>
-        <div className="text-white flex justify-around h-[85%]">
-          <div className="">災害予測</div>
+        <div className="text-white h-[20%] text-center">
+          知りたい項目にチェックを入れてください。
+          <br />
+          災害情報など様々な情報を確認することが出来ます。
+        </div>
+        <div className="text-white flex justify-around h-[70%]">
+          <div>災害予測</div>
           <div>水害予測</div>
           <div>地震予測</div>
         </div>
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-end gap-3 h-[10%]">
           <button className="text-blue-500 border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800">検索条件クリア</button>
           <button type="submit">
             <div className="text-white bg-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-700">確定</div>
