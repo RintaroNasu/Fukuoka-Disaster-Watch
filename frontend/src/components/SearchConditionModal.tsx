@@ -11,7 +11,7 @@ export const SearchConditionModal = () => {
 
   return (
     <>
-      <button className="absolute gap-2 right-14 z-[400] rounded-2xl top-24 bg-gray-900 shadow-xl text-white flex items-center px-4 py-3" onClick={onClickSearchModalOpenButton}>
+      <button className="fixed gap-2 right-14 z-[400] rounded-2xl top-24 bg-gray-900 shadow-xl text-white flex items-center px-4 py-3" onClick={onClickSearchModalOpenButton}>
         検索
         <span>
           <TbAdjustmentsSearch size={18} />
