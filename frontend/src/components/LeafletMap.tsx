@@ -10,22 +10,13 @@ import { useLeafletMap } from "@/hooks/useLeafletMap";
 
 import "leaflet/dist/leaflet.css";
 
-export const LeafletMap = () => {
-  const [tsunami, setTsunami] = useState<TsunamiData>([]);
-  const [land, setLand] = useState<LandData>([]);
+type Props = {
+  tsunami: TsunamiData;
+  land: LandData;
+};
 
-  const mapRef = useLeafletMap([33.5902, 130.4207], tsunami, land);
-
-  useEffect(() => {
-    const getData = async () => {
-      const jsonTsunami = await getTsunami();
-      setTsunami(jsonTsunami);
-      const jsonLand = await getLand();
-      setLand(jsonLand);
-      console.log(jsonLand);
-    };
-    getData();
-  }, []);
+export const LeafletMap = (props: Props) => {
+  const mapRef = useLeafletMap([33.5902, 130.4207], props.tsunami, props.land);
 
   return (
     <>

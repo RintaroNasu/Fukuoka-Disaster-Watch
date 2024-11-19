@@ -1,5 +1,7 @@
 export type Coordinate = [number, number];
 
+export type Condition = "land" | "tsunami";
+
 export type MultiPolygonGeometry = {
   type: string;
   coordinates: number[][][][];
