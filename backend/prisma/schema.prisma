@@ -21,3 +21,10 @@ model Fukuoka_water_info {
   geometry       Json
 }
 
+model Fukuoka_land_info {
+  id    Int     @id @default(autoincrement())
+  prefecture     String
+  prefecture_code String
+  flood_level    String
+  geometry       Json
+}
