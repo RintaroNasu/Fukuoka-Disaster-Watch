@@ -24,9 +24,8 @@ export const SearchConditionModal = () => {
           災害情報など様々な情報を確認することが出来ます。
         </div>
         <div className="text-white flex justify-around h-[70%]">
-          <div>災害予測</div>
-          <div>水害予測</div>
-          <div>地震予測</div>
+          <div>土砂災害予測</div>
+          <div>津波予測</div>
         </div>
         <div className="flex justify-end gap-3 h-[10%]">
           <button className="text-blue-500 border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800">検索条件クリア</button>
