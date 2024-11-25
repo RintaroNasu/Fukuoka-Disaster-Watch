@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-import { Coordinate, LandData, TsunamiData } from "@/utils/type";
+import { Coordinate, LandData } from "@/utils/type";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-export const useLeafletMap = (center: Coordinate, tsunami?: TsunamiData, land?: LandData) => {
+export const useLeafletMap = (center: Coordinate, land?: LandData) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,14 +16,6 @@ export const useLeafletMap = (center: Coordinate, tsunami?: TsunamiData, land?: 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
-
-      tsunami &&
-        tsunami.forEach((feature) => {
-          const coordinates = (feature.geometry.coordinates[0][0] as number[][]).map((coord) => [coord[1], coord[0]]);
-          L.polygon(coordinates as L.LatLngExpression[], {
-            color: "blue",
-          }).addTo(map);
-        });
 
       land &&
         land.forEach((feature) => {
@@ -37,7 +29,7 @@ export const useLeafletMap = (center: Coordinate, tsunami?: TsunamiData, land?: 
         map.remove();
       };
     }
-  }, [center, tsunami, land]);
+  }, [center, land]);
 
   return mapRef;
 };
