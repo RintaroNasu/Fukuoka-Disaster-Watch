@@ -4,23 +4,18 @@ import { useState } from "react";
 
 import { Modal } from "./parts/Modal";
 
-import { getTsunami } from "../utils/getTsunami";
 import { getLand } from "@/utils/getLand";
-import { Condition, LandData, TsunamiData } from "@/utils/type";
+import { LandData } from "@/utils/type";
 
 import { TbAdjustmentsSearch } from "react-icons/tb";
 
 type Props = {
-  setTsunami: (tsunami: TsunamiData) => void;
   setLand: (land: LandData) => void;
 };
 
 export const SearchConditionModal = (props: Props) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [selectedConditions, setSelectedConditions] = useState({
-    land: false,
-    tsunami: false,
-  });
+
   const [loading, setLoading] = useState(false);
 
   const onClickSearchModalOpenButton = () => setIsSearchModalOpen(true);
@@ -29,32 +24,11 @@ export const SearchConditionModal = (props: Props) => {
   const handleConfirm = async () => {
     setLoading(true);
 
-    if (!selectedConditions.land && !selectedConditions.tsunami) {
-      props.setTsunami([]);
-      props.setLand([]);
-      onClickSearchModalCloseButton();
-      setLoading(false);
-      return;
-    }
+    const jsonLand = await getLand();
+    props.setLand(jsonLand);
 
-    if (selectedConditions.land) {
-      const jsonLand = await getLand();
-      props.setLand(jsonLand);
-    }
-
-    if (selectedConditions.tsunami) {
-      const jsonTsunami = await getTsunami();
-      props.setTsunami(jsonTsunami);
-    }
     setLoading(false);
     onClickSearchModalCloseButton();
-  };
-
-  const handleCheckboxChange = (condition: Condition) => {
-    setSelectedConditions((prev) => ({
-      ...prev,
-      [condition]: !prev[condition],
-    }));
   };
 
   return (
@@ -73,22 +47,11 @@ export const SearchConditionModal = (props: Props) => {
         </div>
         <div className="text-white flex gap-10 justify-center items-center h-[50%]">
           <div>
-            <label className="text-lg flex gap-2">
-              <input type="checkbox" checked={selectedConditions.land} onChange={() => handleCheckboxChange("land")} />
-              土砂災害データ
-            </label>
-          </div>
-          <div>
-            <label className="text-lg flex gap-2">
-              <input type="checkbox" checked={selectedConditions.tsunami} onChange={() => handleCheckboxChange("tsunami")} />
-              津波データ
-            </label>
+            <label className="text-lg flex gap-2">土砂災害データ</label>
           </div>
         </div>
         <div className="flex justify-end items-center gap-3 h-[20%]">
-          <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800" onClick={() => setSelectedConditions({ land: false, tsunami: false })}>
-            検索条件クリア
-          </button>
+          <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800">検索条件クリア</button>
           <button type="submit" onClick={handleConfirm}>
             <div className={`text-white rounded-2xl px-4 py-2 ${loading ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-700"}`}>{loading ? "取得中..." : "確定"}</div>
           </button>

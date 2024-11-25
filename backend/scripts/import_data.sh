@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 引数からファイル名とプロパティキーを取得
-GEOJSON_FILE="safety_data/$1.geojson" # "water" または "land" など
-PROPERTIES_PREFIX=$2  # "A40" または "A33" など
+GEOJSON_FILE="safety_data/$1.geojson" # "land" など
+PROPERTIES_PREFIX=$2  # "A33" など
 
 # PostgreSQL コンテナ名
 CONTAINER_NAME="db"
