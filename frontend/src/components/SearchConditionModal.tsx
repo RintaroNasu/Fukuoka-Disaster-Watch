@@ -6,6 +6,7 @@ import { Modal } from "./parts/Modal";
 
 import { getLand } from "@/utils/getLand";
 import { LandData } from "@/utils/type";
+import { getAiResponse } from "@/utils/getAiResponse";
 
 import { TbAdjustmentsSearch } from "react-icons/tb";
 
@@ -23,19 +24,41 @@ const regions = {
 export const SearchConditionModal = (props: Props) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [selectedCities, setSelectedCities] = useState<string | null>(null);
 
   const onClickSearchModalOpenButton = () => setIsSearchModalOpen(true);
   const onClickSearchModalCloseButton = () => setIsSearchModalOpen(false);
 
-  const handleCheckboxChange = (city: string) => {
-    setSelectedCities((prevSelectedCities) => (prevSelectedCities.includes(city) ? prevSelectedCities.filter((c) => c !== city) : [...prevSelectedCities, city]));
+  const handleRadioChange = (city: string) => {
+    setSelectedCities(city);
+  };
+
+  const getRegionByCity = (city: string) => {
+    for (const [region, cities] of Object.entries(regions)) {
+      if (cities.includes(city)) {
+        return region;
+      }
+    }
+    return null;
   };
 
   const handleConfirm = async () => {
+    if (!selectedCities) {
+      alert("市を選択してください");
+      return;
+    }
+
+    const selectedRegion = getRegionByCity(selectedCities);
+    if (!selectedRegion) {
+      alert("市の情報が不正です");
+      return;
+    }
+
     setLoading(true);
     const jsonLand = await getLand(selectedCities);
     props.setLand(jsonLand);
+    const jsonAiResponse = await getAiResponse({ city: selectedCities, region: selectedRegion });
+    console.log(jsonAiResponse);
 
     setLoading(false);
     onClickSearchModalCloseButton();
@@ -58,7 +81,7 @@ export const SearchConditionModal = (props: Props) => {
               <div className="flex flex-col gap-2">
                 {cities.map((city) => (
                   <div key={city} className="flex items-center gap-2">
-                    <input type="checkbox" id={city} checked={selectedCities.includes(city)} onChange={() => handleCheckboxChange(city)} />
+                    <input type="radio" id={city} value={city} checked={selectedCities === city} onChange={() => handleRadioChange(city)} />
                     <label htmlFor={city}>{city}</label>
                   </div>
                 ))}
@@ -67,7 +90,7 @@ export const SearchConditionModal = (props: Props) => {
           ))}
         </div>
         <div className="flex justify-end items-center  mt-10 gap-3">
-          <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800" onClick={() => setSelectedCities([])}>
+          <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800" onClick={() => setSelectedCities(null)}>
             検索条件クリア
           </button>
           <button type="submit" onClick={handleConfirm}>
