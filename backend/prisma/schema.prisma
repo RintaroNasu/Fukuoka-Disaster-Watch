@@ -13,18 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Fukuoka_water_info {
-  id    Int     @id @default(autoincrement())
-  prefecture     String
-  prefecture_code String
-  flood_level    String
-  geometry       Json
-}
+
 
 model Fukuoka_land_info {
   id    Int     @id @default(autoincrement())
-  prefecture     String
-  prefecture_code String
-  flood_level    String
+  location_name     String
+  address          String
+  record_date    String
   geometry       Json
 }
