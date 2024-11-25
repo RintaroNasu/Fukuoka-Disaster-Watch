@@ -74,11 +74,11 @@ DO \$do\$
             properties := feature -> 'properties';
             geometry := feature -> 'geometry';
             
-            INSERT INTO "Fukuoka_${1}_info"(prefecture, prefecture_code, flood_level, geometry)
+            INSERT INTO "Fukuoka_${1}_info"(location_name, address, record_date, geometry)
             VALUES (
-                properties->>'${PROPERTIES_PREFIX}_001',
-                properties->>'${PROPERTIES_PREFIX}_002',
-                properties->>'${PROPERTIES_PREFIX}_003',
+                properties->>'${PROPERTIES_PREFIX}_005',
+                properties->>'${PROPERTIES_PREFIX}_006',
+                properties->>'${PROPERTIES_PREFIX}_007',
                 geometry
             );
         END LOOP;
