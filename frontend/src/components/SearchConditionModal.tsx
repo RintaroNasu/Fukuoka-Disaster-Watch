@@ -15,24 +15,20 @@ type Props = {
 };
 
 const regions = {
-  福岡地域: ["福岡市", "春日市", "太宰府市", "筑紫野市"],
-  北九州地域: ["北九州市", "中間市", "遠賀町", "水巻町"],
-  筑豊地域: ["飯塚市", "嘉麻市", "田川市", "桂川町"],
-  筑後地域: ["久留米市", "八女市", "筑後市", "大川市"],
+  福岡地域: ["福岡市", "糸島市", "那珂川市", "春日市", "大野城市", "太宰府市", "筑紫野市", "朝倉市", "古賀市", "福津市", "宗像市", "新宮町", "久山町", "粕屋町", "篠栗町", "志免町", "須江町", "宇美町", "筑前町", "東峰村"],
+  北九州地域: ["北九州市", "行橋市", "豊前市", "中間市", "遠賀町", "水巻町", "芦屋町", "岡垣町", "苅田町", "みやこ町", "吉富町", "上毛町", "築上町"],
+  筑豊地域: ["飯塚市", "嘉麻市", "田川市", "直方市", "宮若市", "桂川町", "福智町", "小竹町", "鞍手町", "香春町", "添田町", "糸田町", "川崎町", "大任町", "赤村"],
+  筑後地域: ["久留米市", "大牟田市", "八女市", "筑後市", "柳川市", "大川市", "みやま市", "小郡市", "うきは市", "大刀洗町", "広川町", "大木町"],
 };
 
 export const SearchConditionModal = (props: Props) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedCities, setSelectedCities] = useState<string | null>(null);
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [aiAnalysis, setAiAnalysis] = useState<string>("");
 
   const onClickSearchModalOpenButton = () => setIsSearchModalOpen(true);
   const onClickSearchModalCloseButton = () => setIsSearchModalOpen(false);
-
-  const handleRadioChange = (city: string) => {
-    setSelectedCities(city);
-  };
 
   const getRegionByCity = (city: string) => {
     for (const [region, cities] of Object.entries(regions)) {
@@ -49,16 +45,16 @@ export const SearchConditionModal = (props: Props) => {
       return;
     }
 
-    const selectedRegion = getRegionByCity(selectedCities);
+    const selectedRegion = getRegionByCity(selectedCities[0]);
     if (!selectedRegion) {
       alert("市の情報が不正です");
       return;
     }
 
     setLoading(true);
-    const jsonLand = await getLand(selectedCities);
+    const jsonLand = await getLand(selectedCities[0]);
     props.setLand(jsonLand);
-    const jsonAiResponse = await getAiResponse({ city: selectedCities, region: selectedRegion });
+    const jsonAiResponse = await getAiResponse({ city: selectedCities[0], region: selectedRegion });
     setAiAnalysis(jsonAiResponse.advice);
     setLoading(false);
     onClickSearchModalCloseButton();
@@ -72,6 +68,7 @@ export const SearchConditionModal = (props: Props) => {
           <TbAdjustmentsSearch size={18} />
         </span>
       </button>
+
       {aiAnalysis && (
         <div className="fixed bottom-0 left-0 z-[400] mt-4 p-6 bg-gray-100 rounded-lg max-w-md shadow">
           <h2 className="text-lg text-gray-700 font-semibold inline-block border-b border-gray-400 mb-2">{selectedCities}住民へのアドバイス</h2>
@@ -84,19 +81,30 @@ export const SearchConditionModal = (props: Props) => {
           {Object.entries(regions).map(([regionName, cities]) => (
             <div key={regionName}>
               <div className="text-2xl underline mb-4">{regionName}</div>
-              <div className="flex flex-col gap-2">
+              <select
+                value={selectedCities[0] || ""} //選択された市町村を格納、それ以外は空文字を格納
+                onChange={(e) => {
+                  //select要素のoption要素を取得し、選択されたoption要素を取得
+                  const options = Array.from(e.target.options);
+                  const selected = options.filter((option) => option.selected).map((option) => option.value);
+                  console.log(selected);
+                  setSelectedCities(selected);
+                }}
+                className="w-full border rounded-md p-2 text-black bg-white"
+              >
+                <option value="">選択してください</option>
                 {cities.map((city) => (
-                  <div key={city} className="flex items-center gap-2">
-                    <input type="radio" id={city} value={city} checked={selectedCities === city} onChange={() => handleRadioChange(city)} />
-                    <label htmlFor={city}>{city}</label>
-                  </div>
+                  //選択された市町村をoption要素に格納
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
           ))}
         </div>
         <div className="flex justify-end items-center  mt-10 gap-3">
-          <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800" onClick={() => setSelectedCities(null)}>
+          <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800" onClick={() => setSelectedCities([])}>
             検索条件クリア
           </button>
           <button type="submit" onClick={handleConfirm}>
