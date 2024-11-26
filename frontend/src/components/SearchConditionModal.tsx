@@ -25,6 +25,7 @@ export const SearchConditionModal = (props: Props) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedCities, setSelectedCities] = useState<string | null>(null);
+  const [aiAnalysis, setAiAnalysis] = useState<string>("");
 
   const onClickSearchModalOpenButton = () => setIsSearchModalOpen(true);
   const onClickSearchModalCloseButton = () => setIsSearchModalOpen(false);
@@ -58,8 +59,7 @@ export const SearchConditionModal = (props: Props) => {
     const jsonLand = await getLand(selectedCities);
     props.setLand(jsonLand);
     const jsonAiResponse = await getAiResponse({ city: selectedCities, region: selectedRegion });
-    console.log(jsonAiResponse);
-
+    setAiAnalysis(jsonAiResponse.advice);
     setLoading(false);
     onClickSearchModalCloseButton();
   };
@@ -72,6 +72,12 @@ export const SearchConditionModal = (props: Props) => {
           <TbAdjustmentsSearch size={18} />
         </span>
       </button>
+      {aiAnalysis && (
+        <div className="fixed bottom-0 left-0 z-[400] mt-4 p-6 bg-gray-100 rounded-lg max-w-md shadow">
+          <h2 className="text-lg text-gray-700 font-semibold inline-block border-b border-gray-400 mb-2">{selectedCities}住民へのアドバイス</h2>
+          <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiAnalysis}</p>
+        </div>
+      )}
       <Modal className="w-[750px] h-[400px] px-6 py-2" isOpen={isSearchModalOpen} onClose={onClickSearchModalCloseButton}>
         <div className="text-white text-center">土砂災害の知りたい市にチェックを入れてください。</div>
         <div className="text-white flex  gap-6 justify-center items-center mt-10">
