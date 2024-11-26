@@ -4,7 +4,7 @@ import { LandService } from './land.service';
 export class LandController {
   constructor(private readonly LandService: LandService) {}
   @Post()
-  async getLand(@Body('searchCities') searchCities: string[]) {
+  async getLand(@Body('searchCities') searchCities: string) {
     return await this.LandService.getLand(searchCities);
   }
 }

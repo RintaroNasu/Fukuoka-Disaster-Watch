@@ -1,4 +1,4 @@
-export const getLand = async (searchCities: string[]) => {
+export const getLand = async (searchCities: string) => {
   const url = "http://localhost:8000/land";
 
   const data = await fetch(url, {
