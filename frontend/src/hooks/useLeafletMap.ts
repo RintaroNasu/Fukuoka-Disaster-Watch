@@ -4,6 +4,8 @@ import { Coordinate, LandData } from "@/utils/type";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
+import { getComments, postComment } from "@/utils/commentApi";
+
 const DefaultIcon = L.icon({
   iconUrl: "/images/marker-icon.png",
   iconRetinaUrl: "/images/marker-icon.d577052a.png",
@@ -49,10 +51,9 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         });
 
       // コメント表示
-      const fetchComments = async () => {
-        const response = await fetch("http://localhost:8000/comments");
-        const comments = await response.json();
-        comments.forEach((comment: { lat: number; lng: number; content: string; createdAt: string }) => {
+      const fetchAndDisplayComments = async () => {
+        const comments = await getComments();
+        comments.forEach((comment) => {
           if (mapRef.current) {
             const popupContent = `
               <b>コメント:</b> ${comment.content}<br>
@@ -65,8 +66,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         });
         
       };
-
-      fetchComments();
+      fetchAndDisplayComments();
     }
 
     return () => {
@@ -81,14 +81,9 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
   const handleSubmit = async () => {
     if (!latLng || !content) return;
 
-    try {
-      const response = await fetch("http://localhost:8000/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...latLng, content }),
-      });
+    const isPosted = await postComment(latLng.lat, latLng.lng, content);
 
-      if (response.ok) {
+      if (isPosted) {
         alert("コメントが保存されました！");
         setFormVisible(false);
         setContent("");
@@ -104,9 +99,6 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
       } else {
         alert("保存に失敗しました");
       }
-    } catch (error) {
-      console.error("Error saving comment:", error);
-    }
   };
 
   return { mapRef: mapContainerRef, formVisible, latLng, setContent, content, handleSubmit, setFormVisible };

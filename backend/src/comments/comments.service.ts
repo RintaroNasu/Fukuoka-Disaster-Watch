@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from "prisma/prisma.service"; // Prismaを使用する場合
+import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Injectable()
 export class CommentsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createComment(data: { lat: number; lng: number; content: string; createdAt: string}) {
+  async createComment(data: CreateCommentDto) {
     return this.prisma.comment.create({
       data,
     });

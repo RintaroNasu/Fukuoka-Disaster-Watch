@@ -1,7 +1,9 @@
 "use client";
 
 import { LandData } from "@/utils/type";
+
 import { useLeafletMap } from "@/hooks/useLeafletMap";
+
 import "leaflet/dist/leaflet.css";
 
 type Props = {
