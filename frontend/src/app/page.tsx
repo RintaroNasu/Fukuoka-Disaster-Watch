@@ -33,8 +33,12 @@ export default function Home() {
           <div className="flex gap-5 items-center font-semibold">
             {!isLoggedIn && (
               <>
-                <Link href="/sign_in">ログイン</Link>
-                <Link href="/sign_up">新規登録</Link>
+                <Link className="hover:bg-[#2f598f] py-1 px-2 rounded" href="/sign_in">
+                  ログイン
+                </Link>
+                <Link className="hover:bg-[#2f598f] py-1 px-2 rounded" href="/sign_up">
+                  新規登録
+                </Link>
               </>
             )}
             {isLoggedIn && <button onClick={onClickLogout}>ログアウト</button>}
