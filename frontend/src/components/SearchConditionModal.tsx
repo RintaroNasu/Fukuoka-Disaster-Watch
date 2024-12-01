@@ -87,7 +87,6 @@ export const SearchConditionModal = (props: Props) => {
                   //select要素のoption要素を取得し、選択されたoption要素を取得
                   const options = Array.from(e.target.options);
                   const selected = options.filter((option) => option.selected).map((option) => option.value);
-                  console.log(selected);
                   setSelectedCities(selected);
                 }}
                 className="w-full border rounded-md p-2 text-black bg-white"
