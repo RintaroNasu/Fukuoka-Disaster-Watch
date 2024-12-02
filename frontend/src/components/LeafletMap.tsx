@@ -20,7 +20,7 @@ export const LeafletMap = (props: Props) => {
     handleSubmit,
     setFormVisible,
   } = useLeafletMap([33.5902, 130.4207], props.land);
-
+  console.log(content);
   return (
     <>
       <div ref={mapRef} className="w-full h-[100vh]" />
@@ -28,12 +28,12 @@ export const LeafletMap = (props: Props) => {
         <div className="absolute top-20 left-10 bg-white p-4 rounded shadow-md z-[3000]">
           <p>緯度: {latLng.lat}</p>
           <p>経度: {latLng.lng}</p>
-          <textarea
+          <input
             value={content}
             onChange={(e) => setContent(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded"
             placeholder="コメントを入力してください"
-          ></textarea>
+          ></input>
           <button
             onClick={handleSubmit}
             className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
