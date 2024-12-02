@@ -14,7 +14,7 @@ type Props = {
 
 export const LeafletMap = (props: Props) => {
   const { mapRef, formVisible, latLng, content, setContent, handleSubmit, setFormVisible } = useLeafletMap([33.5902, 130.4207], props.land);
-  console.log(content);
+
   return (
     <>
       <div ref={mapRef} className="w-full h-[100vh]" />
