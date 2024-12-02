@@ -26,3 +26,11 @@ model User {
   email String  @unique
   password  String
 }
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  lat       Float    // 緯度
+  lng       Float    // 経度
+  content   String   // 投稿内容
+  createdAt DateTime @default(now())
+}

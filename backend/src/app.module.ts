@@ -8,18 +8,34 @@ import { LandModule } from './land/land.module';
 import { AiAnalysisController } from './ai-analysis/ai-analysis.controller';
 import { AiAnalysisService } from './ai-analysis/ai-analysis.service';
 import { AiAnalysisModule } from './ai-analysis/ai-analysis.module';
+import { CommentsController } from './comments/comments.controller';
+import { CommentsService } from './comments/comments.service';
+import { CommentsModule } from './comments/comments.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 
 @Module({
-  imports: [PrismaModule, LandModule, AiAnalysisModule, AuthModule],
+  imports: [
+    PrismaModule,
+    LandModule,
+    AiAnalysisModule,
+    AuthModule,
+    CommentsModule,
+  ],
   controllers: [
     AppController,
     LandController,
     AiAnalysisController,
     AuthController,
+    CommentsController,
   ],
-  providers: [AppService, LandService, AiAnalysisService, AuthService],
+  providers: [
+    AppService,
+    LandService,
+    AiAnalysisService,
+    AuthService,
+    CommentsService,
+  ],
 })
 export class AppModule {}
