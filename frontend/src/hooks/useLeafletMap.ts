@@ -42,7 +42,6 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     }
 
     if (typeof window !== "undefined" && mapContainerRef.current && !mapRef.current) {
-      
       // マップ初期化処理
       const map = L.map(mapContainerRef.current).setView(center, 13);
       mapRef.current = map;
@@ -131,6 +130,11 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
 
   // コメント削除処理
   const handleDeleteComment = async (commentId: number, marker: L.Marker, commentUserId: number) => {
+    if (!isLoggedIn) {
+      errorToast("削除するにはログインが必要です。");
+      return;
+    }
+
     if (currentUserId !== commentUserId) {
       errorToast("自分のコメントのみ削除できます。");
       return;

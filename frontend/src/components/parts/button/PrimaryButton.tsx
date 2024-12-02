@@ -11,7 +11,7 @@ export const PrimaryButton = (props: Props) => {
       onClick={props.onClick}
       disabled={props.disabled}
       className={`text-white rounded-xl px-4 py-2 bg-blue-500  font-semibold
-        ${props.disabled ? "cursor-not-allowed bg-blue-200" : "hover:bg-blue-700"} 
+        ${props.disabled ? "cursor-not-allowed bg-blue-100" : "hover:bg-blue-700"} 
         ${props.className}`}
     >
       {props.children}
