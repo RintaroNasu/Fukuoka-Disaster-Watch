@@ -13,3 +13,19 @@ export type Land = {
 };
 
 export type LandData = Land[];
+
+export type Comment = {
+  id: number;
+  lat: number;
+  lng: number;
+  content: string;
+  createdAt: string;
+  userId: number;
+};
+
+export type PostComment = {
+  lat: number;
+  lng: number;
+  content: string;
+  userId: number;
+};

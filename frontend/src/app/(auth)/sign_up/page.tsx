@@ -25,9 +25,11 @@ export default function Sign_up() {
   const submit = async () => {
     const res = await signUp({ email, password });
     const token = res?.token;
+    const userId = res?.user.id;
 
     if (token) {
       localStorage.setItem("access_token", token);
+      localStorage.setItem("user_id", userId);
       successToast("新規登録に成功しました。");
       router.push("/");
     } else {
