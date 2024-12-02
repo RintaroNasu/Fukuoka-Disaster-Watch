@@ -25,12 +25,15 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   password  String
+  comments  Comment[]
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
-  lat       Float    // 緯度
-  lng       Float    // 経度
-  content   String   // 投稿内容
+  lat       Float 
+  lng       Float
+  content   String
+  userId   Int  
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
