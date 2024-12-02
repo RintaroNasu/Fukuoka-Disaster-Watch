@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Coordinate, LandData } from "@/utils/type";
+import { deleteComment } from "@/utils/commentApi";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -66,10 +67,18 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
             const popupContent = `
               <b>コメント:</b> ${comment.content}<br>
               <i>日時:</i> ${new Date(comment.createdAt).toLocaleString()}
+              <button id="delete-${comment.id}">削除</button>
             `;
-            L.marker([comment.lat, comment.lng])
+            const marker = L.marker([comment.lat, comment.lng])
               .bindPopup(popupContent)
               .addTo(mapRef.current);
+                  // ポップアップが開かれたときに削除ボタンにイベントリスナーを追加
+            marker.on("popupopen", () => {
+              const deleteButton = document.getElementById(`delete-${comment.id}`);
+              if (deleteButton) {
+                deleteButton.addEventListener("click", () => handleDeleteComment(comment.id, marker));
+              }
+            });
           } else {
             console.error(
               "mapRef.current が null です。コメントをマップに追加できません。"
@@ -89,12 +98,13 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     };
   }, [center, land]);
 
+  //投稿処理
   const handleSubmit = async () => {
     if (!latLng || !content) return;
 
-    const isPosted = await postComment(latLng.lat, latLng.lng, content);
+    const result = await postComment(latLng.lat, latLng.lng, content);
 
-    if (isPosted) {
+    if (result) {
       alert("コメントが保存されました！");
       setFormVisible(false);
       setContent("");
@@ -104,13 +114,34 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         const popupContent = `
             <b>コメント:</b> ${content}<br>
             <i>日時:</i> ${new Date().toLocaleString()}
+            <button id="delete-${result.id}">削除</button>
           `;
-        L.marker([latLng.lat, latLng.lng])
+        const marker = L.marker([latLng.lat, latLng.lng])
           .bindPopup(popupContent)
           .addTo(mapRef.current);
+        marker.on("popupopen", () => {
+          const deleteButton = document.getElementById("delete-new-comment");
+          if (deleteButton) {
+            deleteButton.addEventListener("click", () => handleDeleteComment(result.id, marker)); // 新しいコメントIDを適切に設定
+          }
+        });
       }
     } else {
       alert("保存に失敗しました");
+    }
+  };
+
+  //コメント削除
+  const handleDeleteComment = async (commentId: number, marker: L.Marker) => {
+    const isDeleted = await deleteComment(commentId);
+  
+    if (isDeleted) {
+      alert("コメントが削除されました！");
+      if (mapRef.current) {
+        mapRef.current.removeLayer(marker); // マーカーを地図から削除
+      }
+    } else {
+      alert("コメントの削除に失敗しました");
     }
   };
 

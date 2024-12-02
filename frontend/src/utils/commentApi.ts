@@ -20,7 +20,11 @@ export const getComments = async (): Promise<
   }
 };
 
-export const postComment = async (lat: number, lng: number, content: string): Promise<boolean> => {
+export const postComment = async (
+  lat: number,
+  lng: number,
+  content: string
+): Promise<{ id: number; lat: number; lng: number; content: string } | null> => {
   try {
     const response = await fetch("http://localhost:8000/comments", {
       method: "POST",
@@ -32,9 +36,24 @@ export const postComment = async (lat: number, lng: number, content: string): Pr
       throw new Error("コメントの投稿に失敗しました");
     }
 
-    return true;
+    const data = await response.json();
+    return data; // ID を含むコメントデータを返す
+
   } catch (error) {
     console.error("Error posting comment:", error);
+    return null;
+  }
+};
+
+export const deleteComment = async (commentId: number): Promise<boolean> => {
+  try {
+    console.log("commentId", commentId);
+    const response = await fetch(`http://localhost:8000/comments/${commentId}`, {
+      method: "DELETE",
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("コメント削除中にエラーが発生しました:", error);
     return false;
   }
 };
