@@ -37,7 +37,7 @@ export const postComment = async (
     }
 
     const data = await response.json();
-    return data; // ID を含むコメントデータを返す
+    return data;
 
   } catch (error) {
     console.error("Error posting comment:", error);
@@ -47,7 +47,6 @@ export const postComment = async (
 
 export const deleteComment = async (commentId: number): Promise<boolean> => {
   try {
-    console.log("commentId", commentId);
     const response = await fetch(`http://localhost:8000/comments/${commentId}`, {
       method: "DELETE",
     });

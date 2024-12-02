@@ -25,7 +25,7 @@ export const Modal = (props: Props) => {
         ${props.isOpen ? "visible" : "hidden"}`}
     >
       <div
-        className={`overflow-y-auto rounded-2xl bg-[#0f1b2a] px-8 py-5
+        className={`overflow-y-auto rounded-2xl bg-[#0f1b2a] px-10 py-5
           ${props.className ? props.className : ""}`}
       >
         {props.children}

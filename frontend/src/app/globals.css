@@ -3,10 +3,9 @@
 @tailwind utilities;
 
 .leaflet-control-zoom {
-  position: fixed !important;
+  @apply fixed !important;
 }
 
 .delete-button {
   @apply px-2 py-1 bg-red-500 text-white rounded-full !important;
 }
-

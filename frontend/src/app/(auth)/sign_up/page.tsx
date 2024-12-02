@@ -41,8 +41,8 @@ export default function Sign_up() {
         <div className="mx-auto w-[300px] text-center">
           <div className="text-white text-2xl font-semibold">サインアップ画面</div>
           <form onSubmit={onSubmit} className="mt-8 w-full flex flex-col items-center mb-5 gap-4">
-            <input onChange={onChangeEmail} type="email" placeholder="メールアドレス" className="mb-3 rounded-[4px]" />
-            <input onChange={onChangePassword} type="password" placeholder="パスワード" className="mb-3 rounded-[4px]" />
+            <input onChange={onChangeEmail} type="email" placeholder="メールアドレス" className="mb-3 rounded-[4px] px-2 py-1" />
+            <input onChange={onChangePassword} type="password" placeholder="パスワード" className="mb-3 rounded-[4px] px-2 py-1" />
             <PrimaryButton disabled={!email || !password}>新規登録</PrimaryButton>
           </form>
         </div>
