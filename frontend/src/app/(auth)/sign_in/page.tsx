@@ -25,9 +25,11 @@ export default function Sign_in() {
   const submit = async () => {
     const res = await signIn({ email, password });
     const token = res?.token;
+    const userId = res?.user.id;
 
     if (token) {
       localStorage.setItem("access_token", token);
+      localStorage.setItem("user_id", userId);
       successToast("ログインに成功しました。");
       router.push("/");
     } else {
