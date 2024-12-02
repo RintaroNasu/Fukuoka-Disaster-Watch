@@ -4,10 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { PrimaryButton } from "@/components/parts/PrimaryButton";
-
-import { signIn } from "@/utils/auth";
+import { signIn } from "@/utils/api/auth";
 import { errorToast, successToast } from "@/utils/toast";
+
+import { PrimaryButton } from "@/components/parts/button/PrimaryButton";
 
 export default function Sign_in() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function Sign_in() {
       successToast("ログインに成功しました。");
       router.push("/");
     } else {
-      errorToast("そのメールアドレスは既に使用されています。");
+      errorToast("ログインに失敗しました。");
     }
   };
 

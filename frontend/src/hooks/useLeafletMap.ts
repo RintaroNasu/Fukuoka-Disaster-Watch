@@ -1,21 +1,48 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Coordinate, LandData } from "@/utils/type";
+import { getComments, postComment, deleteComment } from "@/utils/api/commentActions";
+import { errorToast, successToast } from "@/utils/toast";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+const DefaultIcon = L.icon({
+  iconUrl: "/images/marker-icon.png",
+  iconRetinaUrl: "/images/marker-icon.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
 export const useLeafletMap = (center: Coordinate, land?: LandData) => {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+
+  const [formVisible, setFormVisible] = useState(false);
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(null);
+  const [content, setContent] = useState("");
 
   useEffect(() => {
-    if (typeof window !== "undefined" && mapRef.current) {
-      const map = L.map(mapRef.current).setView(center, 13);
+    if (typeof window !== "undefined" && mapContainerRef.current && !mapRef.current) {
+      const map = L.map(mapContainerRef.current).setView(center, 13);
+      mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
+
+      map.on("click", (e: L.LeafletMouseEvent) => {
+        setLatLng({ lat: e.latlng.lat, lng: e.latlng.lng });
+        setFormVisible(true);
+      });
 
       land &&
         land.forEach((feature) => {
@@ -25,11 +52,90 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
           }).addTo(map);
         });
 
-      return () => {
-        map.remove();
+      const fetchAndDisplayComments = async () => {
+        const comments = await getComments();
+
+        comments.forEach((comment) => {
+          if (mapRef.current) {
+            const popupContent = `
+              <b>コメント:</b> ${comment.content}<br>
+              <i>日時:</i> ${new Date(comment.createdAt).toLocaleString()}
+              <button id="delete-${comment.id}" className="px-4 py-2 font-semibold" >削除</button>
+            `;
+            const marker = L.marker([comment.lat, comment.lng]).bindPopup(popupContent).addTo(mapRef.current);
+            marker.on("popupopen", () => {
+              const deleteButton = document.getElementById(`delete-${comment.id}`);
+              if (deleteButton) {
+                deleteButton.addEventListener("click", () => handleDeleteComment(comment.id, marker));
+              }
+            });
+          } else {
+            console.error("mapRef.current が null です。コメントをマップに追加できません。");
+          }
+        });
       };
+      fetchAndDisplayComments();
     }
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
   }, [center, land]);
 
-  return mapRef;
+  const handleSubmit = async () => {
+    if (!latLng || !content) return;
+
+    const result = await postComment(latLng.lat, latLng.lng, content);
+
+    if (result) {
+      successToast("コメントを投稿しました。");
+      setFormVisible(false);
+      setContent("");
+
+      if (mapRef.current && latLng) {
+        const popupContent = `
+            <b>コメント:</b> ${content}<br>
+            <i>日時:</i> ${new Date().toLocaleString()}
+            <button id="delete-${result.id}" class="delete-button">削除</button>
+          `;
+        const marker = L.marker([latLng.lat, latLng.lng]).bindPopup(popupContent).addTo(mapRef.current);
+
+        marker.on("popupopen", () => {
+          const deleteButton = document.getElementById("delete-new-comment");
+          if (deleteButton) {
+            deleteButton.addEventListener("click", () => handleDeleteComment(result.id, marker));
+          }
+        });
+      }
+    } else {
+      alert("保存に失敗しました");
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number, marker: L.Marker) => {
+    const isDeleted = await deleteComment(commentId);
+    router.push("/");
+
+    if (isDeleted) {
+      successToast("コメントを削除しました。");
+      if (mapRef.current) {
+        mapRef.current.removeLayer(marker);
+      }
+    } else {
+      errorToast("コメントの削除に失敗しました。");
+    }
+  };
+
+  return {
+    mapRef: mapContainerRef,
+    formVisible,
+    latLng,
+    setContent,
+    content,
+    handleSubmit,
+    setFormVisible,
+  };
 };
