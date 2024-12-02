@@ -42,6 +42,8 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     }
 
     if (typeof window !== "undefined" && mapContainerRef.current && !mapRef.current) {
+      
+      // マップ初期化処理
       const map = L.map(mapContainerRef.current).setView(center, 13);
       mapRef.current = map;
 
@@ -49,6 +51,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
+      // マップクリックイベント処理
       map.on("click", (e: L.LeafletMouseEvent) => {
         if (!isLoggedIn) {
           errorToast("地図上に投稿するためにはログインが必要です。");
@@ -58,6 +61,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         setFormVisible(true);
       });
 
+      // 災害情報取得・表示処理
       land &&
         land.forEach((feature) => {
           const coordinates = (feature.geometry.coordinates[0][0] as number[][]).map((coord) => [coord[1], coord[0]]);
@@ -66,6 +70,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
           }).addTo(map);
         });
 
+      // コメント取得・表示処理
       const fetchAndDisplayComments = async () => {
         const comments = await getComments();
 
@@ -100,6 +105,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     };
   }, [center, land]);
 
+  // コメント投稿処理
   const handleSubmit = async () => {
     if (!latLng || !content || !isLoggedIn) return;
 
@@ -123,6 +129,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     }
   };
 
+  // コメント削除処理
   const handleDeleteComment = async (commentId: number, marker: L.Marker, commentUserId: number) => {
     if (currentUserId !== commentUserId) {
       errorToast("自分のコメントのみ削除できます。");
