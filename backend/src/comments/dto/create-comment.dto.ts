@@ -3,4 +3,5 @@ export class CreateCommentDto {
   lng: number;
   content: string;
   createdAt: string;
+  userId: number;
 }
