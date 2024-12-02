@@ -25,7 +25,7 @@ export default function Sign_up() {
   const submit = async () => {
     const res = await signUp({ email, password });
     const token = res?.token;
-    const userId = res?.user.id;
+    const userId = res?.user?.id;
 
     if (token) {
       localStorage.setItem("access_token", token);
