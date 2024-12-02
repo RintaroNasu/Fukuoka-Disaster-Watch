@@ -66,7 +66,7 @@ export const SearchConditionModal = (props: Props) => {
 
   return (
     <>
-      <button className="fixed gap-2 right-14 z-[400] rounded-2xl top-24 bg-gray-900 shadow-xl text-white flex items-center px-4 py-3" onClick={onClickSearchModalOpenButton}>
+      <button className="hover:bg-gray-500 fixed gap-2 right-14 z-[400] rounded-2xl top-24 bg-gray-900 shadow-xl text-white flex items-center px-4 py-3" onClick={onClickSearchModalOpenButton}>
         検索
         <span>
           <TbAdjustmentsSearch size={18} />
@@ -79,9 +79,9 @@ export const SearchConditionModal = (props: Props) => {
           <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiAnalysis}</p>
         </div>
       )}
-      <Modal className="w-[750px] h-[400px] px-6 py-2" isOpen={isSearchModalOpen} onClose={onClickSearchModalCloseButton}>
-        <div className="text-white text-center">土砂災害の知りたい市にチェックを入れてください。</div>
-        <div className="text-white flex  gap-6 justify-center items-center mt-10">
+      <Modal className="w-[750px] h-[350px] px-6 py-2" isOpen={isSearchModalOpen} onClose={onClickSearchModalCloseButton}>
+        <div className="text-white text-center font-semibold">土砂災害の知りたい市にチェックを入れてください。</div>
+        <div className="text-white flex  gap-6 justify-center items-center mt-14">
           {Object.entries(regions).map(([regionName, cities]) => (
             <div key={regionName}>
               <div className="text-2xl underline mb-4">{regionName}</div>
@@ -104,7 +104,7 @@ export const SearchConditionModal = (props: Props) => {
             </div>
           ))}
         </div>
-        <div className="flex justify-end items-center  mt-10 gap-3">
+        <div className="flex justify-end items-center  mt-20 gap-3">
           <button className="text-blue-500 flex items-center border-2 border-blue-500 rounded-2xl px-4 py-2 hover:bg-blue-800" onClick={() => setSelectedCities([])}>
             検索条件クリア
           </button>
