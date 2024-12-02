@@ -29,8 +29,18 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
   const [formVisible, setFormVisible] = useState(false);
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(null);
   const [content, setContent] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    setIsLoggedIn(!!token);
+
+    const currentUserId = localStorage.getItem("user_id");
+    if (currentUserId) {
+      setCurrentUserId(parseInt(currentUserId));
+    }
+
     if (typeof window !== "undefined" && mapContainerRef.current && !mapRef.current) {
       const map = L.map(mapContainerRef.current).setView(center, 13);
       mapRef.current = map;
@@ -40,6 +50,10 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
       }).addTo(map);
 
       map.on("click", (e: L.LeafletMouseEvent) => {
+        if (!isLoggedIn) {
+          errorToast("地図上に投稿するためにはログインが必要です。");
+          return;
+        }
         setLatLng({ lat: e.latlng.lat, lng: e.latlng.lng });
         setFormVisible(true);
       });
@@ -58,6 +72,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         comments.forEach((comment) => {
           if (mapRef.current) {
             const popupContent = `
+              <p>ユーザーID:${comment.userId}</p>
               <b>コメント:</b> ${comment.content}<br>
               <i>日時:</i> ${new Date(comment.createdAt).toLocaleString()}
               <button id="delete-${comment.id}" className="px-4 py-2 font-semibold" >削除</button>
@@ -66,7 +81,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
             marker.on("popupopen", () => {
               const deleteButton = document.getElementById(`delete-${comment.id}`);
               if (deleteButton) {
-                deleteButton.addEventListener("click", () => handleDeleteComment(comment.id, marker));
+                deleteButton.addEventListener("click", () => handleDeleteComment(comment.id, marker, comment.userId));
               }
             });
           } else {
@@ -86,36 +101,34 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
   }, [center, land]);
 
   const handleSubmit = async () => {
-    if (!latLng || !content) return;
+    if (!latLng || !content || !isLoggedIn) return;
 
-    const result = await postComment(latLng.lat, latLng.lng, content);
+    if (!currentUserId) {
+      errorToast("ユーザー情報が取得できませんでした。");
+      return;
+    }
+    const result = await postComment({
+      lat: latLng.lat,
+      lng: latLng.lng,
+      content,
+      userId: currentUserId,
+    });
 
     if (result) {
       successToast("コメントを投稿しました。");
       setFormVisible(false);
       setContent("");
-
-      if (mapRef.current && latLng) {
-        const popupContent = `
-            <b>コメント:</b> ${content}<br>
-            <i>日時:</i> ${new Date().toLocaleString()}
-            <button id="delete-${result.id}" class="delete-button">削除</button>
-          `;
-        const marker = L.marker([latLng.lat, latLng.lng]).bindPopup(popupContent).addTo(mapRef.current);
-
-        marker.on("popupopen", () => {
-          const deleteButton = document.getElementById("delete-new-comment");
-          if (deleteButton) {
-            deleteButton.addEventListener("click", () => handleDeleteComment(result.id, marker));
-          }
-        });
-      }
     } else {
-      alert("保存に失敗しました");
+      errorToast("保存に失敗しました。");
     }
   };
 
-  const handleDeleteComment = async (commentId: number, marker: L.Marker) => {
+  const handleDeleteComment = async (commentId: number, marker: L.Marker, commentUserId: number) => {
+    if (currentUserId !== commentUserId) {
+      errorToast("自分のコメントのみ削除できます。");
+      return;
+    }
+
     const isDeleted = await deleteComment(commentId);
     router.push("/");
 
