@@ -1,6 +1,6 @@
-export const getComments = async (): Promise<
-  { id: number; lat: number; lng: number; content: string ,createdAt: string }[]
-> => {
+import { Comment, PostComment } from "../type";
+
+export const getComments = async (): Promise<Comment[]> => {
   const url = "http://localhost:8000/comments";
   try {
     const response = await fetch(url, {
@@ -20,16 +20,13 @@ export const getComments = async (): Promise<
   }
 };
 
-export const postComment = async (
-  lat: number,
-  lng: number,
-  content: string
-): Promise<{ id: number; lat: number; lng: number; content: string } | null> => {
+export const postComment = async (comment: PostComment) => {
+  const { lat, lng, content, userId } = comment;
   try {
     const response = await fetch("http://localhost:8000/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ lat, lng, content }),
+      body: JSON.stringify({ lat, lng, content, userId }),
     });
 
     if (!response.ok) {
@@ -38,7 +35,6 @@ export const postComment = async (
 
     const data = await response.json();
     return data;
-
   } catch (error) {
     console.error("Error posting comment:", error);
     return null;
