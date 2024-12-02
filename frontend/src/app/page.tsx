@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/components/Header";
 import { SearchConditionModal } from "@/components/SearchConditionModal";
 import { LandData } from "@/utils/type";
 import dynamic from "next/dynamic";
@@ -13,7 +14,7 @@ export default function Home() {
   return (
     <>
       <div className="relative">
-        <div className="fixed top-0 right-0 w-full z-[3000] flex justify-center text-3xl font-semibold bg-[#0f1b2a] text-white p-4">福岡災害予測アプリ</div>
+        <Header />
         <div className="mt-16">
           <LeafletMap land={land} />
         </div>

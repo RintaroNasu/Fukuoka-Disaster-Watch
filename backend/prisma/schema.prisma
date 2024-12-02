@@ -13,8 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 model Fukuoka_land_info {
   id    Int     @id @default(autoincrement())
   location_name     String
@@ -23,7 +21,11 @@ model Fukuoka_land_info {
   geometry       Json
 }
 
-
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  password  String
+}
 
 model Comment {
   id        Int      @id @default(autoincrement())

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service'; // Prismaを使用する場合
+import { PrismaService } from 'prisma/prisma.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class CommentsService {
   }
 
   async getComments() {
-    return this.prisma.comment.findMany(); // 全コメントを取得
+    return this.prisma.comment.findMany();
   }
 
   async deleteComment(commentId: string) {

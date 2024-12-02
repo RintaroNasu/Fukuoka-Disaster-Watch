@@ -4,11 +4,12 @@ import { useState } from "react";
 
 import { Modal } from "./parts/Modal";
 
-import { getLand } from "@/utils/getLand";
+import { getLand } from "@/utils/api/getLand";
 import { LandData } from "@/utils/type";
-import { getAiResponse } from "@/utils/getAiResponse";
+import { getAiResponse } from "@/utils/api/getAiResponse";
 
 import { TbAdjustmentsSearch } from "react-icons/tb";
+import { errorToast } from "@/utils/toast";
 
 type Props = {
   setLand: (land: LandData) => void;
@@ -47,15 +48,18 @@ export const SearchConditionModal = (props: Props) => {
 
     const selectedRegion = getRegionByCity(selectedCities[0]);
     if (!selectedRegion) {
-      alert("市の情報が不正です");
+      errorToast("市の情報が不正です");
       return;
     }
 
     setLoading(true);
-    const jsonLand = await getLand(selectedCities[0]);
-    props.setLand(jsonLand);
+
     const jsonAiResponse = await getAiResponse({ city: selectedCities[0], region: selectedRegion });
     setAiAnalysis(jsonAiResponse.advice);
+
+    const jsonLand = await getLand(selectedCities[0]);
+    props.setLand(jsonLand);
+
     setLoading(false);
     onClickSearchModalCloseButton();
   };
@@ -82,19 +86,16 @@ export const SearchConditionModal = (props: Props) => {
             <div key={regionName}>
               <div className="text-2xl underline mb-4">{regionName}</div>
               <select
-                value={selectedCities[0] || ""} //選択された市町村を格納、それ以外は空文字を格納
+                value={selectedCities[0] || ""}
                 onChange={(e) => {
-                  //select要素のoption要素を取得し、選択されたoption要素を取得
                   const options = Array.from(e.target.options);
                   const selected = options.filter((option) => option.selected).map((option) => option.value);
-                  console.log(selected);
                   setSelectedCities(selected);
                 }}
                 className="w-full border rounded-md p-2 text-black bg-white"
               >
                 <option value="">選択してください</option>
                 {cities.map((city) => (
-                  //選択された市町村をoption要素に格納
                   <option key={city} value={city}>
                     {city}
                   </option>
