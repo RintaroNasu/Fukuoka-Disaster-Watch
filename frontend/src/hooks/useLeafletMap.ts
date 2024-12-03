@@ -38,12 +38,11 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [center, setCenter] = useState<Coordinate>(initialCenter); // 中心座標を状態管理
+  const currentMarkerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-    console.log("token", token);
     setIsLoggedIn(!!token);
-    console.log("isLoggedIn", isLoggedIn);
     const currentUserId = localStorage.getItem("user_id");
     if (currentUserId) {
       setCurrentUserId(parseInt(currentUserId));
@@ -72,6 +71,17 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
         const clickedLatLng = { lat: e.latlng.lat, lng: e.latlng.lng };
         setLatLng(clickedLatLng);
         setFormVisible(true);
+
+        // 既存のピンを削除して新しいピンを追加
+        if (currentMarkerRef.current) {
+          map.removeLayer(currentMarkerRef.current);
+        } 
+
+        // 新しいピンを作成して追加
+        const newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+        currentMarkerRef.current = newMarker;
+
+        // ズームレベルを維持しながらビューを移動
         map.setView(clickedLatLng, map.getZoom());
       });
 
@@ -134,7 +144,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
         mapRef.current = null;
       }
     };
-  }, [center, land, isLoggedIn]); // 中心座標が変更されたときに再レンダリング
+  }, [center, land, isLoggedIn]);
 
   // コメント投稿処理
   const handleSubmit = async () => {
