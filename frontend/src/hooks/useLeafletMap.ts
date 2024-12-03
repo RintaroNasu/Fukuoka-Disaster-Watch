@@ -20,7 +20,7 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export const useLeafletMap = (center: Coordinate, land?: LandData) => {
+export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
   const router = useRouter();
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -32,11 +32,12 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [center, setCenter] = useState<Coordinate>(initialCenter);
+  const currentMarkerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     setIsLoggedIn(!!token);
-
     const currentUserId = localStorage.getItem("user_id");
     if (currentUserId) {
       setCurrentUserId(parseInt(currentUserId));
@@ -57,8 +58,21 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
           errorToast("地図上に投稿するためにはログインが必要です。");
           return;
         }
-        setLatLng({ lat: e.latlng.lat, lng: e.latlng.lng });
+        const clickedLatLng = { lat: e.latlng.lat, lng: e.latlng.lng };
+        setLatLng(clickedLatLng);
         setFormVisible(true);
+
+        // 既存のピンを削除して新しいピンを追加
+        if (currentMarkerRef.current) {
+          map.removeLayer(currentMarkerRef.current);
+        }
+
+        // 新しいピンを作成して追加
+        const newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+        currentMarkerRef.current = newMarker;
+
+        // ズームレベルを維持しながらビューを移動
+        map.setView(clickedLatLng, map.getZoom());
       });
 
       // 災害情報取得・表示処理
@@ -97,6 +111,11 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
       fetchAndDisplayComments();
     }
 
+    // 中心座標が更新されたら地図のビューを変更
+    if (mapRef.current) {
+      mapRef.current.setView(center, mapRef.current.getZoom());
+    }
+
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
@@ -125,6 +144,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
       setFormVisible(false);
       setContent("");
       setLoading(false);
+      router.push("/");
     } else {
       errorToast("保存に失敗しました。");
     }
@@ -164,5 +184,6 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     content,
     handleSubmit,
     setFormVisible,
+    setCenter,
   };
 };
