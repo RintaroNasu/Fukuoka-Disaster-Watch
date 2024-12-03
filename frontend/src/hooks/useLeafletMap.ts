@@ -3,11 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Coordinate, LandData } from "@/utils/type";
-import {
-  getComments,
-  postComment,
-  deleteComment,
-} from "@/utils/api/commentActions";
+import { getComments, postComment, deleteComment } from "@/utils/api/commentActions";
 import { errorToast, successToast } from "@/utils/toast";
 
 import L from "leaflet";
@@ -31,13 +27,12 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
   const mapRef = useRef<L.Map | null>(null);
 
   const [formVisible, setFormVisible] = useState(false);
-  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(null);
   const [content, setContent] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
-  const [center, setCenter] = useState<Coordinate>(initialCenter); // 中心座標を状態管理
+  const [center, setCenter] = useState<Coordinate>(initialCenter);
   const currentMarkerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
@@ -48,18 +43,13 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
       setCurrentUserId(parseInt(currentUserId));
     }
 
-    if (
-      typeof window !== "undefined" &&
-      mapContainerRef.current &&
-      !mapRef.current
-    ) {
+    if (typeof window !== "undefined" && mapContainerRef.current && !mapRef.current) {
       // マップ初期化処理
       const map = L.map(mapContainerRef.current).setView(center, 13);
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
       // マップクリックイベント処理
@@ -75,7 +65,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
         // 既存のピンを削除して新しいピンを追加
         if (currentMarkerRef.current) {
           map.removeLayer(currentMarkerRef.current);
-        } 
+        }
 
         // 新しいピンを作成して追加
         const newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
@@ -88,9 +78,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
       // 災害情報取得・表示処理
       land &&
         land.forEach((feature) => {
-          const coordinates = (
-            feature.geometry.coordinates[0][0] as number[][]
-          ).map((coord) => [coord[1], coord[0]]);
+          const coordinates = (feature.geometry.coordinates[0][0] as number[][]).map((coord) => [coord[1], coord[0]]);
           L.polygon(coordinates as L.LatLngExpression[], {
             color: "red",
           }).addTo(map);
@@ -106,27 +94,17 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
               <p>ユーザーID:${comment.userId}</p>
               <b>コメント:</b> ${comment.content}<br>
               <i>日時:</i> ${new Date(comment.createdAt).toLocaleString()}
-              <button id="delete-${
-                comment.id
-              }" className="px-4 py-2 font-semibold" >削除</button>
+              <button id="delete-${comment.id}" className="px-4 py-2 font-semibold" >削除</button>
             `;
-            const marker = L.marker([comment.lat, comment.lng])
-              .bindPopup(popupContent)
-              .addTo(mapRef.current);
+            const marker = L.marker([comment.lat, comment.lng]).bindPopup(popupContent).addTo(mapRef.current);
             marker.on("popupopen", () => {
-              const deleteButton = document.getElementById(
-                `delete-${comment.id}`
-              );
+              const deleteButton = document.getElementById(`delete-${comment.id}`);
               if (deleteButton) {
-                deleteButton.addEventListener("click", () =>
-                  handleDeleteComment(comment.id, marker, comment.userId)
-                );
+                deleteButton.addEventListener("click", () => handleDeleteComment(comment.id, marker, comment.userId));
               }
             });
           } else {
-            console.error(
-              "mapRef.current が null です。コメントをマップに追加できません。"
-            );
+            console.error("mapRef.current が null です。コメントをマップに追加できません。");
           }
         });
       };
@@ -149,7 +127,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
   // コメント投稿処理
   const handleSubmit = async () => {
     if (!latLng || !content || !isLoggedIn) return;
-
+    setLoading(true);
     if (!currentUserId) {
       errorToast("ユーザー情報が取得できませんでした。");
       return;
@@ -162,9 +140,10 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
     });
 
     if (result) {
-      successToast("コメントを投稿しました。");
+      successToast("登録されているユーザーにコメントが送信されました。");
       setFormVisible(false);
       setContent("");
+      setLoading(false);
       router.push("/");
     } else {
       errorToast("保存に失敗しました。");
@@ -172,11 +151,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
   };
 
   // コメント削除処理
-  const handleDeleteComment = async (
-    commentId: number,
-    marker: L.Marker,
-    commentUserId: number
-  ) => {
+  const handleDeleteComment = async (commentId: number, marker: L.Marker, commentUserId: number) => {
     if (!isLoggedIn) {
       errorToast("削除するにはログインが必要です。");
       return;
@@ -205,6 +180,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
     formVisible,
     latLng,
     setContent,
+    loading,
     content,
     handleSubmit,
     setFormVisible,

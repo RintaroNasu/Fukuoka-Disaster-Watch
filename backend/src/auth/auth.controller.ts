@@ -10,7 +10,6 @@ export class AuthController {
     @Body('email') email: string,
     @Body('password') password: string,
   ) {
-    console.log('email:', email);
     return await this.authService.signUp(email, password);
   }
 
@@ -19,7 +18,6 @@ export class AuthController {
     @Body('email') email: string,
     @Body('password') password: string,
   ) {
-    console.log('email:', email);
     return await this.authService.signIn(email, password);
   }
 }
