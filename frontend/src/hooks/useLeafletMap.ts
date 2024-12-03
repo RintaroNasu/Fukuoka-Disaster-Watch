@@ -30,6 +30,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(null);
   const [content, setContent] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -102,12 +103,12 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
         mapRef.current = null;
       }
     };
-  }, [center, land]);
+  }, [center, land, isLoggedIn]);
 
   // コメント投稿処理
   const handleSubmit = async () => {
     if (!latLng || !content || !isLoggedIn) return;
-
+    setLoading(true);
     if (!currentUserId) {
       errorToast("ユーザー情報が取得できませんでした。");
       return;
@@ -120,9 +121,10 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     });
 
     if (result) {
-      successToast("コメントを投稿しました。");
+      successToast("登録されているユーザーにコメントが送信されました。");
       setFormVisible(false);
       setContent("");
+      setLoading(false);
     } else {
       errorToast("保存に失敗しました。");
     }
@@ -158,6 +160,7 @@ export const useLeafletMap = (center: Coordinate, land?: LandData) => {
     formVisible,
     latLng,
     setContent,
+    loading,
     content,
     handleSubmit,
     setFormVisible,

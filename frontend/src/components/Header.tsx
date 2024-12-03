@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { successToast } from "@/utils/toast";
+
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+
+import { successToast } from "@/utils/toast";
 
 export const Header = () => {
+  const router = useRouter();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
   const isAuthPage = pathname === "/sign_in" || pathname === "/sign_up";
@@ -18,6 +23,7 @@ export const Header = () => {
     localStorage.removeItem("access_token");
     successToast("ログアウトしました。");
     setIsLoggedIn(false);
+    router.push("/");
   };
 
   return (

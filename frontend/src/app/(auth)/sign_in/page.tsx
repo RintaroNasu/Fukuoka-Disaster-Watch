@@ -24,7 +24,7 @@ export default function Sign_in() {
 
   const submit = async () => {
     const res = await signIn({ email, password });
-    console.log(res);
+
     const token = res?.token;
     const userId = res?.user?.id;
 

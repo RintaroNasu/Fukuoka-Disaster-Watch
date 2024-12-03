@@ -3,17 +3,18 @@
 import { LandData } from "@/utils/type";
 
 import { useLeafletMap } from "@/hooks/useLeafletMap";
+
 import { PrimaryButton } from "./parts/button/PrimaryButton";
+import { SkeltonButton } from "./parts/button/SkeltonButton";
 
 import "leaflet/dist/leaflet.css";
-import { SkeltonButton } from "./parts/button/SkeltonButton";
 
 type Props = {
   land: LandData;
 };
 
 export const LeafletMap = (props: Props) => {
-  const { mapRef, formVisible, latLng, content, setContent, handleSubmit, setFormVisible } = useLeafletMap([33.5902, 130.4207], props.land);
+  const { mapRef, formVisible, latLng, content, setContent, loading, handleSubmit, setFormVisible } = useLeafletMap([33.5902, 130.4207], props.land);
 
   return (
     <>
@@ -25,7 +26,7 @@ export const LeafletMap = (props: Props) => {
           <div className="flex gap-3 items-center justify-end">
             <SkeltonButton onClick={() => setFormVisible(false)}>キャンセル</SkeltonButton>
             <PrimaryButton onClick={handleSubmit} disabled={!content}>
-              投稿
+              {loading ? "送信中..." : "投稿"}
             </PrimaryButton>
           </div>
         </div>
