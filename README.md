@@ -101,7 +101,7 @@ npm run start:dev
 ### バックエンド
   ・[NestJS](https://nestjs.com/): モジュール構造を持つNode.jsフレームワーク<br>
   ・[Prisma](https://www.prisma.io/): データベースアクセスのためのORM<br>
-  ・[jsonwebtoken](https://jwt.io/): JWTを使用した認証管理<br>
+  ・[JWT](https://jwt.io/): JWTを使用した認証管理<br>
   ・[Nodemailer](https://www.nodemailer.com/): メール送信ライブラリ<br>
   ・[OpenAI](https://platform.openai.com/docs/api-reference/introduction): AI機能を実装するためのライブラリ<br>
   
