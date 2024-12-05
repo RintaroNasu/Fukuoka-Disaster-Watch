@@ -88,22 +88,22 @@ npm run start:dev
 
 ## 技術スタック
 
-## フロントエンド 
+### フロントエンド 
   ・React: ユーザーインターフェースの構築<br>
   ・Next.js (App Router): サーバーサイドレンダリング対応のReactフレームワーク<br>
   ・TailwindCSS: カスタマイズ可能なCSSユーティリティ<br>
   ・React-Toastify: トースト通知の表示ライブラリ<br>
   ・Leaflet: 地図表示用の軽量ライブラリ<br>
   
-## バックエンド
+### バックエンド
   ・NestJS: モジュール構造を持つNode.jsフレームワーク<br>
   ・Prisma: データベースアクセスのためのORM
   ・jsonwebtoken: JWTを使用した認証管理<br>
   ・Nodemailer: メール送信ライブラリ<br>
   ・OpenAI: AI機能を実装するためのライブラリ<br>
   
-## データベース
+### データベース
   ・PostgresSQL: リレーショナルデータベース管理システム
 
-## インフラ
+### インフラ
   ・Docker: コンテナ化プラットフォームで環境構築を効率化
