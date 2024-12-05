@@ -93,7 +93,7 @@ npm run start:dev
   ・Next.js (App Router): サーバーサイドレンダリング対応のReactフレームワーク<br>
   ・TailwindCSS: カスタマイズ可能なCSSユーティリティ<br>
   ・React-Toastify: トースト通知の表示ライブラリ<br>
-  ・Leaflet:地図表示用の軽量ライブラリ<br>
+  ・Leaflet: 地図表示用の軽量ライブラリ<br>
   
 ## バックエンド
   ・NestJS: モジュール構造を持つNode.jsフレームワーク<br>
@@ -103,7 +103,7 @@ npm run start:dev
   ・OpenAI: AI機能を実装するためのライブラリ<br>
   
 ## データベース
-  ・PostgresSQL:リレーショナルデータベース管理システム
+  ・PostgresSQL: リレーショナルデータベース管理システム
 
 ## インフラ
-  ・Docker:コンテナ化プラットフォームで環境構築を効率化
+  ・Docker: コンテナ化プラットフォームで環境構築を効率化
