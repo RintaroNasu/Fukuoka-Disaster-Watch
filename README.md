@@ -88,7 +88,7 @@ npm run start:dev
 
 ## 技術スタック
 
-### 共通使用言語
+### 使用言語
   ・[TypeScript](https://www.typescriptlang.org/)
   
 ### フロントエンド 
