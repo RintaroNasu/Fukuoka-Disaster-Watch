@@ -58,6 +58,8 @@ POSTGRES_DB=leaflet
 DATABASE_URL="postgresql://postgres:${POSTGRES_PASSWORD}@localhost:5433/${POSTGRES_DB}"
 OPENAI_API_KEY=""
 JWT_SECRET=""
+EMAIL_USER="" #送信者のメールアドレス
+EMAIL_PASSWORD= #送信者のパスワード
 ```
 
 7. Docker コンテナを起動
