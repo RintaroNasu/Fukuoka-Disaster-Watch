@@ -88,6 +88,9 @@ npm run start:dev
 
 ## 技術スタック
 
+### 共通使用言語
+  ・TypeScript
+  
 ### フロントエンド 
   ・React: ユーザーインターフェースの構築<br>
   ・Next.js (App Router): サーバーサイドレンダリング対応のReactフレームワーク<br>
