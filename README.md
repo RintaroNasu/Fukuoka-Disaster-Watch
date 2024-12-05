@@ -52,14 +52,14 @@ cd backend
 6. ルートディレクトリに .env ファイルを作成し、以下の内容を追加
 
 ```
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=leaflet
-DATABASE_URL="postgresql://postgres:${POSTGRES_PASSWORD}@localhost:5433/${POSTGRES_DB}"
-OPENAI_API_KEY=""
-JWT_SECRET=""
-EMAIL_USER="" #送信者のメールアドレス
-EMAIL_PASSWORD= #送信者のパスワード
+POSTGRES_USER= "your_postgres_user"
+POSTGRES_PASSWORD= "your_postgres_password"
+POSTGRES_DB= "your_postgres_db"
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5433/${POSTGRES_DB}"
+OPENAI_API_KEY= "your_openai_api_key"
+JWT_SECRET= "your_jwt_secret"
+EMAIL_USER= "your_email_user"
+EMAIL_PASSWORD= "your_email_password"
 ```
 
 7. Docker コンテナを起動
