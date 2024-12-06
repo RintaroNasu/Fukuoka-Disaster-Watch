@@ -31,6 +31,9 @@ export const Header = () => {
       <div className={`${isAuthPage ? "" : "fixed top-0 right-0 w-full z-[3000]"} flex justify-between bg-[#0f1b2a] text-white p-4`}>
         <div className="text-3xl font-semibold">Fukuoka Disaster Watch</div>
         <div className="flex gap-5 items-center font-semibold">
+          <Link className="hover:bg-[#2f598f] py-1 px-2 rounded" href="/about">
+            ABOUT
+          </Link>
           {!isLoggedIn && (
             <>
               <Link className="hover:bg-[#2f598f] py-1 px-2 rounded" href="/sign_in">
