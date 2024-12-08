@@ -39,6 +39,12 @@
   ・[Vercel](https://vercel.com/docs):フロントエンドのホスティングプラットフォーム
 
 
+## 本番環境
+### フロントエンド
+  ・ [deployURL](https://fukuoka-disaster-watch.vercel.app/)
+### バックエンド
+  ・ terraformを使用して現在デプロイ中
+
 ## 開発環境のセットアップ手順
 
 ローカル環境で開発サーバーを起動するための手順は以下の通りです。
