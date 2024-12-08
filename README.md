@@ -45,7 +45,7 @@
 
 ## 本番環境
 ### フロントエンド
-  ・ [deployURL](https://fukuoka-disaster-watch.vercel.app/)
+  ・ https://fukuoka-disaster-watch.vercel.app
 ### バックエンド
   ・ terraformを使用して現在デプロイ中
 
