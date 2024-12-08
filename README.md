@@ -109,4 +109,5 @@ npm run start:dev
   ・[PostgresSQL](https://www.postgresql.org/docs/): リレーショナルデータベース管理システム
 
 ### インフラ
-  ・[Docker](https://docs.docker.com/): コンテナ化プラットフォームで環境構築を効率化
+  ・[Docker](https://docs.docker.com/): コンテナ化プラットフォームで環境構築を効率化<br>
+  ・[Vercel](https://vercel.com/docs):フロントエンドのホスティングプラットフォーム
