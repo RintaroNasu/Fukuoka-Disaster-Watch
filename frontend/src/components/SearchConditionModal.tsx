@@ -79,7 +79,7 @@ export const SearchConditionModal = (props: Props) => {
           <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiAnalysis}</p>
         </div>
       )}
-      <Modal className="w-[750px] h-[350px] px-6 py-2" isOpen={isSearchModalOpen} onClose={onClickSearchModalCloseButton}>
+      <Modal className="w-[750px] h-[350px] px-9 py-2" isOpen={isSearchModalOpen} onClose={onClickSearchModalCloseButton}>
         <div className="text-white text-center font-semibold">土砂災害の知りたい市にチェックを入れてください。</div>
         <div className="text-white flex  gap-6 justify-center items-center mt-14">
           {Object.entries(regions).map(([regionName, cities]) => (
