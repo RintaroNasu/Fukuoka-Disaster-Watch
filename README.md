@@ -11,6 +11,34 @@
 4. ユーザーがリアルタイムで災害情報を投稿・共有できる機能を搭載しており、住民同士の情報共有を促進<br>
 5. リアルタイム通知機能により、災害の最新情報を住民同士で迅速に伝達し、適切な対応を可能
 
+
+## 技術スタック
+
+### 使用言語
+  ・[TypeScript](https://www.typescriptlang.org/)
+  
+### フロントエンド 
+  ・[React](https://ja.react.dev/): ユーザーインターフェースの構築<br>
+  ・[Next.js (App Router)](https://nextjs.org/): サーバーサイドレンダリング対応のReactフレームワーク<br>
+  ・[TailwindCSS](https://tailwindcss.com/): カスタマイズ可能なCSSユーティリティ<br>
+  ・[React-Toastify](https://fkhadra.github.io/react-toastify/introduction/): トースト通知の表示ライブラリ<br>
+  ・[Leaflet](https://leafletjs.com/reference.html): 地図表示用の軽量ライブラリ<br>
+  
+### バックエンド
+  ・[NestJS](https://nestjs.com/): モジュール構造を持つNode.jsフレームワーク<br>
+  ・[Prisma](https://www.prisma.io/): データベースアクセスのためのORM<br>
+  ・[JWT](https://jwt.io/): JWTを使用した認証管理<br>
+  ・[Nodemailer](https://www.nodemailer.com/): メール送信ライブラリ<br>
+  ・[OpenAI](https://platform.openai.com/docs/api-reference/introduction): AI機能を実装するためのライブラリ<br>
+  
+### データベース
+  ・[PostgresSQL](https://www.postgresql.org/docs/): リレーショナルデータベース管理システム
+
+### インフラ
+  ・[Docker](https://docs.docker.com/): コンテナ化プラットフォームで環境構築を効率化<br>
+  ・[Vercel](https://vercel.com/docs):フロントエンドのホスティングプラットフォーム
+
+
 ## 開発環境のセットアップ手順
 
 ローカル環境で開発サーバーを起動するための手順は以下の通りです。
@@ -85,29 +113,3 @@ npx prisma migrate dev --name init
 ```
 npm run start:dev
 ```
-
-## 技術スタック
-
-### 使用言語
-  ・[TypeScript](https://www.typescriptlang.org/)
-  
-### フロントエンド 
-  ・[React](https://ja.react.dev/): ユーザーインターフェースの構築<br>
-  ・[Next.js (App Router)](https://nextjs.org/): サーバーサイドレンダリング対応のReactフレームワーク<br>
-  ・[TailwindCSS](https://tailwindcss.com/): カスタマイズ可能なCSSユーティリティ<br>
-  ・[React-Toastify](https://fkhadra.github.io/react-toastify/introduction/): トースト通知の表示ライブラリ<br>
-  ・[Leaflet](https://leafletjs.com/reference.html): 地図表示用の軽量ライブラリ<br>
-  
-### バックエンド
-  ・[NestJS](https://nestjs.com/): モジュール構造を持つNode.jsフレームワーク<br>
-  ・[Prisma](https://www.prisma.io/): データベースアクセスのためのORM<br>
-  ・[JWT](https://jwt.io/): JWTを使用した認証管理<br>
-  ・[Nodemailer](https://www.nodemailer.com/): メール送信ライブラリ<br>
-  ・[OpenAI](https://platform.openai.com/docs/api-reference/introduction): AI機能を実装するためのライブラリ<br>
-  
-### データベース
-  ・[PostgresSQL](https://www.postgresql.org/docs/): リレーショナルデータベース管理システム
-
-### インフラ
-  ・[Docker](https://docs.docker.com/): コンテナ化プラットフォームで環境構築を効率化<br>
-  ・[Vercel](https://vercel.com/docs):フロントエンドのホスティングプラットフォーム
