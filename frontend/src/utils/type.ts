@@ -14,6 +14,25 @@ export type Land = {
 
 export type LandData = Land[];
 
+export type PointGeometry = {
+  type: "Point";
+  coordinates: number[] | number[][] | number[][][];
+};
+
+export type Shelter = {
+  id: number;
+  name: string;
+  address: string;
+  shelter_type: string;
+  level: number;
+  latitude: number;
+  longitude: number;
+  capacity: number;
+  geometry: PointGeometry;
+};
+
+export type ShelterData = Shelter[];
+
 export type Comment = {
   id: number;
   lat: number;
