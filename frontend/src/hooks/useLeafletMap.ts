@@ -1,9 +1,12 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import { useRouter } from "next/navigation";
 
-import { Coordinate, LandData } from "@/utils/type";
+import { Coordinate, LandData, ShelterData } from "@/utils/type";
+
 import { getComments, postComment, deleteComment } from "@/utils/api/commentActions";
+
 import { errorToast, successToast } from "@/utils/toast";
 
 import L from "leaflet";
@@ -20,7 +23,7 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
+export const useLeafletMap = (initialCenter: Coordinate, land?: LandData, shelter?: ShelterData) => {
   const router = useRouter();
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -110,6 +113,22 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
           L.polygon(coordinates as L.LatLngExpression[], {
             color: "red",
           }).addTo(map);
+        });
+      }
+
+      // 避難所取得・表示処理
+      if (shelter) {
+        shelter.forEach((shelter) => {
+          const capacityContent = shelter.capacity === -1 ? "収容人数: 0人" : `収容人数: ${shelter.capacity}人`;
+
+          const popupContent = `
+          <p>避難所名: ${shelter.name}</p>
+          <p>住所: ${shelter.address}</p>
+          <p>種別: ${shelter.shelter_type}</p>
+          <p>${capacityContent}</p>
+        `;
+
+          L.marker([shelter.latitude, shelter.longitude]).bindPopup(popupContent).addTo(map);
         });
       }
 
