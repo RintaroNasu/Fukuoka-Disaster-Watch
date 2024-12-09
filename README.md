@@ -47,7 +47,7 @@
 ### フロントエンド
   ・ https://fukuoka-disaster-watch.vercel.app
 ### バックエンド
-  ・ terraformを使用して現在デプロイ中
+  ・ terraformとGoogleCloudPlatformを使用して現在デプロイ中
 
 ---
 
