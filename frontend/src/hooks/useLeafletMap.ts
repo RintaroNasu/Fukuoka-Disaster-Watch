@@ -118,6 +118,13 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData, shelte
 
       // 避難所取得・表示処理
       if (shelter) {
+        const customIcon = L.icon({
+          iconUrl: "images/shelter-icon.png",
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32],
+        });
+
         shelter.forEach((shelter) => {
           const capacityContent = shelter.capacity === -1 ? "収容人数: 0人" : `収容人数: ${shelter.capacity}人`;
 
@@ -128,7 +135,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData, shelte
           <p>${capacityContent}</p>
         `;
 
-          L.marker([shelter.latitude, shelter.longitude]).bindPopup(popupContent).addTo(map);
+          L.marker([shelter.latitude, shelter.longitude], { icon: customIcon }).bindPopup(popupContent).addTo(map);
         });
       }
 
