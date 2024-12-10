@@ -1,5 +1,7 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const getAiResponse = async ({ city, region }: { city: string; region: string }) => {
-  const url = "http://localhost:8000/ai-analysis";
+  const url = `${BASE_URL}/ai-analysis`;
 
   const data = await fetch(url, {
     method: "POST",

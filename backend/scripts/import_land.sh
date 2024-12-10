@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# 引数からファイル名とプロパティキーを取得
-GEOJSON_FILE="safety_data/$1.geojson" # "land" など
-PROPERTIES_PREFIX=$2  # "A33" など
+GEOJSON_FILE="safety_data/land.geojson"
 
 # PostgreSQL コンテナ名
 CONTAINER_NAME="db"
@@ -46,7 +44,7 @@ done
 # GeoJSONデータをコンテナにコピー
 echo "Copying GeoJSON file to container's safety_data directory..."
 docker exec "$CONTAINER_NAME" mkdir -p /safety_data
-if docker cp "$GEOJSON_FILE" "$CONTAINER_NAME:/safety_data/$1.geojson"; then
+if docker cp "$GEOJSON_FILE" "$CONTAINER_NAME:/safety_data/land.geojson"; then
     echo "GeoJSON file successfully copied to /safety_data directory in container."
 else
     echo "Failed to copy GeoJSON file to /safety_data directory in container." >&2
@@ -69,16 +67,16 @@ DO \$do\$
     BEGIN
         FOR feature IN 
             SELECT jsonb_array_elements(content->'features') AS feature
-            FROM (SELECT pg_read_file('/safety_data/$1.geojson')::jsonb AS content) AS t
+            FROM (SELECT pg_read_file('/safety_data/land.geojson')::jsonb AS content) AS t
         LOOP
             properties := feature -> 'properties';
             geometry := feature -> 'geometry';
             
-            INSERT INTO "Fukuoka_${1}_info"(location_name, address, record_date, geometry)
+            INSERT INTO "Fukuoka_land_info"(location_name, address, record_date, geometry)
             VALUES (
-                properties->>'${PROPERTIES_PREFIX}_005',
-                properties->>'${PROPERTIES_PREFIX}_006',
-                properties->>'${PROPERTIES_PREFIX}_007',
+                properties->>'A33_005',
+                properties->>'A33_006',
+                properties->>'A33_007',
                 geometry
             );
         END LOOP;

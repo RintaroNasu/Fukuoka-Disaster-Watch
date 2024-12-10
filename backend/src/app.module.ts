@@ -14,6 +14,9 @@ import { CommentsModule } from './comments/comments.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
+import { ShelterController } from './shelter/shelter.controller';
+import { ShelterModule } from './shelter/shelter.module';
+import { ShelterService } from './shelter/shelter.service';
 
 @Module({
   imports: [
@@ -22,6 +25,7 @@ import { AuthService } from './auth/auth.service';
     AiAnalysisModule,
     AuthModule,
     CommentsModule,
+    ShelterModule,
   ],
   controllers: [
     AppController,
@@ -29,6 +33,7 @@ import { AuthService } from './auth/auth.service';
     AiAnalysisController,
     AuthController,
     CommentsController,
+    ShelterController,
   ],
   providers: [
     AppService,
@@ -36,6 +41,7 @@ import { AuthService } from './auth/auth.service';
     AiAnalysisService,
     AuthService,
     CommentsService,
+    ShelterService,
   ],
 })
 export class AppModule {}

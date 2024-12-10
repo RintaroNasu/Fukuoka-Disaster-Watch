@@ -21,6 +21,18 @@ model Fukuoka_land_info {
   geometry       Json
 }
 
+model ShelterInfo {
+  id          Int      @id @default(autoincrement())
+  name        String   
+  address     String
+  shelter_type        String 
+  capacity    Int
+  level       Int
+  latitude    Float
+  longitude   Float
+  coordinates Json
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique

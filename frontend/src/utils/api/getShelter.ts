@@ -1,14 +1,13 @@
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const getLand = async (searchCities: string) => {
-  const url = `${BASE_URL}/land`;
+export const getShelter = async () => {
+  const url = `${BASE_URL}/shelter`;
 
   const data = await fetch(url, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ searchCities }),
   });
 
   return data.json();

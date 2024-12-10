@@ -1,7 +1,9 @@
 import { Comment, PostComment } from "../type";
 
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const getComments = async (): Promise<Comment[]> => {
-  const url = "http://localhost:8000/comments";
+  const url = `${BASE_URL}/comments`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -22,8 +24,9 @@ export const getComments = async (): Promise<Comment[]> => {
 
 export const postComment = async (comment: PostComment) => {
   const { lat, lng, content, userId } = comment;
+  const url = `${BASE_URL}/comments`;
   try {
-    const response = await fetch("http://localhost:8000/comments", {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lat, lng, content, userId }),
@@ -42,8 +45,9 @@ export const postComment = async (comment: PostComment) => {
 };
 
 export const deleteComment = async (commentId: number): Promise<boolean> => {
+  const url = `${BASE_URL}/comments/${commentId}`;
   try {
-    const response = await fetch(`http://localhost:8000/comments/${commentId}`, {
+    const response = await fetch(url, {
       method: "DELETE",
     });
     return response.ok;

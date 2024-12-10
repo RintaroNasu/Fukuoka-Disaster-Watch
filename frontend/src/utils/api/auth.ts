@@ -1,5 +1,7 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const signUp = async (body: { email: string; password: string }) => {
-  const url = "http://localhost:8000/auth/signup";
+  const url = `${BASE_URL}/auth/signup`;
 
   const data = await fetch(url, {
     method: "POST",
@@ -13,7 +15,7 @@ export const signUp = async (body: { email: string; password: string }) => {
 };
 
 export const signIn = async (body: { email: string; password: string }) => {
-  const url = "http://localhost:8000/auth/signin";
+  const url = `${BASE_URL}/auth/signin`;
 
   const data = await fetch(url, {
     method: "POST",
