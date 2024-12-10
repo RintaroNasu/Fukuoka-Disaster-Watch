@@ -1,11 +1,16 @@
 "use client";
 
+import { useState } from "react";
+
+import dynamic from "next/dynamic";
+
 import { Header } from "@/components/Header";
 import { SearchConditionModal } from "@/components/SearchConditionModal";
+
 import { getShelter } from "@/utils/api/getShelter";
 import { LandData, ShelterData } from "@/utils/type";
-import dynamic from "next/dynamic";
-import { useState } from "react";
+
+import { FaPersonShelter } from "react-icons/fa6";
 
 export default function Home() {
   const [land, setLand] = useState<LandData>([]);
@@ -27,7 +32,10 @@ export default function Home() {
         </div>
         <SearchConditionModal setLand={setLand} />
         <button className="hover:bg-gray-500 fixed gap-2 right-14 z-[400] rounded-2xl top-40 bg-gray-900 shadow-xl text-white flex items-center px-4 py-3" onClick={onClickDisplayShelter}>
-          避難所表示
+          避難所
+          <span>
+            <FaPersonShelter />
+          </span>
         </button>
       </div>
     </>
