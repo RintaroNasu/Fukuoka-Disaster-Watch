@@ -40,7 +40,7 @@ export default function Sign_in() {
 
   return (
     <div className="flex justify-center mt-12">
-      <div className="flex flex-col items-center bg-[#202c3d] shadow-2xl p-4 rounded-xl">
+      <div className="flex flex-col items-center bg-[#202c3d] shadow-2xl p-10 rounded-xl">
         <div className="mx-auto w-[300px] text-center">
           <div className="text-white text-2xl font-semibold">ログイン画面</div>
           <form onSubmit={onSubmit} className="mt-8 w-full flex flex-col items-center mb-5 gap-4">
@@ -49,7 +49,7 @@ export default function Sign_in() {
             <PrimaryButton disabled={!email || !password}>ログイン</PrimaryButton>
           </form>
         </div>
-        <Link className="font-semibold text-white px-4 py-2 hover:bg-gray-600 rounded-xl" href="/">
+        <Link className="font-semibold text-white px-4 py-2 hover:bg-gray-600 rounded-xl underline" href="/">
           ホームへ
         </Link>
       </div>

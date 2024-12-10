@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Coordinate, LandData } from "@/utils/type";
@@ -34,6 +34,34 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [center, setCenter] = useState<Coordinate>(initialCenter);
   const currentMarkerRef = useRef<L.Marker | null>(null);
+
+  // コメント削除処理
+  const handleDeleteComment = useCallback(
+    async (commentId: number, marker: L.Marker, commentUserId: number) => {
+      if (!isLoggedIn) {
+        errorToast("削除するにはログインが必要です。");
+        return;
+      }
+
+      if (currentUserId !== commentUserId) {
+        errorToast("自分のコメントのみ削除できます。");
+        return;
+      }
+
+      const isDeleted = await deleteComment(commentId);
+      router.push("/");
+
+      if (isDeleted) {
+        successToast("コメントを削除しました。");
+        if (mapRef.current) {
+          mapRef.current.removeLayer(marker);
+        }
+      } else {
+        errorToast("コメントの削除に失敗しました。");
+      }
+    },
+    [isLoggedIn, currentUserId, router]
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -76,13 +104,14 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
       });
 
       // 災害情報取得・表示処理
-      land &&
+      if (land) {
         land.forEach((feature) => {
           const coordinates = (feature.geometry.coordinates[0][0] as number[][]).map((coord) => [coord[1], coord[0]]);
           L.polygon(coordinates as L.LatLngExpression[], {
             color: "red",
           }).addTo(map);
         });
+      }
 
       // コメント取得・表示処理
       const fetchAndDisplayComments = async () => {
@@ -142,7 +171,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
         mapRef.current = null;
       }
     };
-  }, [center, land, isLoggedIn]);
+  }, [center, land, isLoggedIn, handleDeleteComment]);
 
   // コメント投稿処理
   const handleSubmit = async () => {
@@ -167,31 +196,6 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
       router.push("/");
     } else {
       errorToast("保存に失敗しました。");
-    }
-  };
-
-  // コメント削除処理
-  const handleDeleteComment = async (commentId: number, marker: L.Marker, commentUserId: number) => {
-    if (!isLoggedIn) {
-      errorToast("削除するにはログインが必要です。");
-      return;
-    }
-
-    if (currentUserId !== commentUserId) {
-      errorToast("自分のコメントのみ削除できます。");
-      return;
-    }
-
-    const isDeleted = await deleteComment(commentId);
-    router.push("/");
-
-    if (isDeleted) {
-      successToast("コメントを削除しました。");
-      if (mapRef.current) {
-        mapRef.current.removeLayer(marker);
-      }
-    } else {
-      errorToast("コメントの削除に失敗しました。");
     }
   };
 
