@@ -91,10 +91,30 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData) => {
         comments.forEach((comment) => {
           if (mapRef.current) {
             const popupContent = `
-              <p>ユーザーID:${comment.userId}</p>
-              <b>コメント:</b> ${comment.content}<br>
-              <i>日時:</i> ${new Date(comment.createdAt).toLocaleString()}
-              <button id="delete-${comment.id}" className="px-4 py-2 font-semibold" >削除</button>
+            <div style="font-family: Arial, sans-serif; padding: 8px;">
+              <p style="margin: 0; font-size: 14px; color: #555;"><strong>ユーザーID:</strong> ${comment.userId}</p>
+              <p style="margin: 8px 0; font-size: 16px; color: #333;">
+                <strong>コメント:</strong><br>${comment.content}
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #888;">
+                <strong>日時:</strong> ${new Date(comment.createdAt).toLocaleString()}
+              </p>
+              <button 
+                id="delete-${comment.id}" 
+                style="
+                display: block;
+                margin-top: 10px;
+                padding: 8px 12px;
+                background-color: #ff4d4f;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+              "
+              onmouseover="this.style.backgroundColor='#e33e3e'"
+              onmouseout="this.style.backgroundColor='#ff4d4f'">削除</button>
             `;
             const marker = L.marker([comment.lat, comment.lng]).bindPopup(popupContent).addTo(mapRef.current);
             marker.on("popupopen", () => {
