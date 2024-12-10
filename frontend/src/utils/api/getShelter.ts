@@ -1,5 +1,7 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const getShelter = async () => {
-  const url = "http://localhost:8000/shelter";
+  const url = `${BASE_URL}/shelter`;
 
   const data = await fetch(url, {
     method: "GET",

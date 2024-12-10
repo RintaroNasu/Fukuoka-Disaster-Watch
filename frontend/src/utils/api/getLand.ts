@@ -1,5 +1,7 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const getLand = async (searchCities: string) => {
-  const url = "http://localhost:8000/land";
+  const url = `${BASE_URL}/land`;
 
   const data = await fetch(url, {
     method: "POST",
