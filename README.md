@@ -25,7 +25,7 @@
 ## 技術スタック
 
 ### 使用言語
-  ・[TypeScript](https://www.typescriptlang.org/)
+  ・**[TypeScript](https://www.typescriptlang.org/)**
   
 ### フロントエンド 
   ・**[React](https://ja.react.dev/)**: ユーザーインターフェースの構築<br>
