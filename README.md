@@ -10,7 +10,7 @@
 --- 
 
 ## アプリ概要
-FukuokaDisasterWatchは、福岡県を対象にした災害情報共有プラットフォームです。
+**FukuokaDisasterWatch**は、福岡県を対象にした災害情報共有プラットフォームです。
 
 ### 機能概要
 1. **災害情報検索機能**: ユーザーは、土砂災害のポリゴンデータを地図上で視覚化し、市区町村単位で災害情報を検索<br>
@@ -54,7 +54,7 @@ FukuokaDisasterWatchは、福岡県を対象にした災害情報共有プラッ
 ### **フロントエンド**
   ・ https://fukuoka-disaster-watch.vercel.app
 ### **バックエンド**
-  ・ terraformとGoogleCloudPlatformを使用して現在デプロイ中
+  ・ renderとsuperbaseでデプロイ中
 
 ---
 
