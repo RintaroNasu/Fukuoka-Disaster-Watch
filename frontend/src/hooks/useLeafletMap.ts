@@ -197,7 +197,7 @@ export const useLeafletMap = (initialCenter: Coordinate, land?: LandData, shelte
         mapRef.current = null;
       }
     };
-  }, [center, land, isLoggedIn, handleDeleteComment]);
+  }, [center, land, , shelter, isLoggedIn, handleDeleteComment]);
 
   // コメント投稿処理
   const handleSubmit = async () => {
