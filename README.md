@@ -29,8 +29,8 @@
     <th>ABOUTページ</th>
   </tr>
   <tr>
-    <td><img width="400" alt="スクリーンショット 2024-12-20 16 42 49" src="https://github.com/user-attachments/assets/97c70ebe-f399-412e-b683-428ce161cd95" /></td>
-    <td><img width="400" alt="スクリーンショット 2024-12-20 16 44 36" src="https://github.com/user-attachments/assets/2af8df03-6f93-4260-a7d6-41ee9e016af8" /></td>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 42 49" src="https://github.com/user-attachments/assets/97c70ebe-f399-412e-b683-428ce161cd95" /></td>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 44 36" src="https://github.com/user-attachments/assets/2af8df03-6f93-4260-a7d6-41ee9e016af8" /></td>
   </tr>
 </table>
 
