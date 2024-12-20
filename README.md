@@ -46,7 +46,7 @@
   </tr>
    <tr>
     <td><img width="500" alt="image" src="https://github.com/user-attachments/assets/da208c10-1472-4b0c-b0e8-ca1c29d7bfaa" /></td>
-    <td><img width="1710" alt="image" src="https://github.com/user-attachments/assets/7f2f1ad0-9535-44dd-82ab-0f02f1898c10" /></td>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 50 50" src="https://github.com/user-attachments/assets/d287456d-1f36-42a7-9d9a-4a5047b96df1" /></td>
   </tr>
 </table>
 
