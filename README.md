@@ -29,7 +29,7 @@
     <th>リポジトリ詳細画面</th>
   </tr>
   <tr>
-    <td><img width="1532" alt="スクリーンショット 2024-12-20 16 42 49" src="https://github.com/user-attachments/assets/97c70ebe-f399-412e-b683-428ce161cd95" /></td>
+    <td><img width="200" alt="スクリーンショット 2024-12-20 16 42 49" src="https://github.com/user-attachments/assets/97c70ebe-f399-412e-b683-428ce161cd95" /></td>
     <td><img src="https://example.com/image2.png" alt="リポジトリ詳細画面" width="200" /></td>
   </tr>
 </table>
