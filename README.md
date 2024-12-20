@@ -22,7 +22,7 @@
 
 ---
 
-## デモ動画
+## デモ画像
 <table>
   <tr>
     <th>TOPページ</th>
@@ -54,8 +54,7 @@
   </tr>
    <tr>
     <td><img width="500" alt="スクリーンショット 2024-12-20 16 53 38" src="https://github.com/user-attachments/assets/a7f4076a-5afd-4ad7-8d69-4ee74d079f19" /></td>
-    <td><img width="500" alt="スクリーンショット 2024-12-20 16 55 19" src="https://github.com/user-attachments/assets/1fc419b8-b54d-4682-a726-6ba1a32940b7" />
-</td>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 59 57" src="https://github.com/user-attachments/assets/9b2baf45-179e-40d8-920c-985f8e4ff972" /></td>
   </tr>
 </table>
 
