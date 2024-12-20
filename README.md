@@ -29,7 +29,7 @@
     <th>ABOUTページ</th>
   </tr>
   <tr>
-    <td><img width="500" alt="スクリーンショット 2024-12-20 16 42 49" src="https://github.com/user-attachments/assets/97c70ebe-f399-412e-b683-428ce161cd95" /></td>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 57 48" src="https://github.com/user-attachments/assets/c0fae6af-a834-4c99-b8df-5b03f3b85a88" /></td>
     <td><img width="500" alt="スクリーンショット 2024-12-20 16 44 36" src="https://github.com/user-attachments/assets/2af8df03-6f93-4260-a7d6-41ee9e016af8" /></td>
   </tr>
   <tr>
@@ -48,7 +48,17 @@
     <td><img width="500" alt="image" src="https://github.com/user-attachments/assets/da208c10-1472-4b0c-b0e8-ca1c29d7bfaa" /></td>
     <td><img width="500" alt="スクリーンショット 2024-12-20 16 50 50" src="https://github.com/user-attachments/assets/d287456d-1f36-42a7-9d9a-4a5047b96df1" /></td>
   </tr>
+  <tr>
+    <th>災害詳細情報投稿ページ</th>
+    <th>避難所表示</th>
+  </tr>
+   <tr>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 53 38" src="https://github.com/user-attachments/assets/a7f4076a-5afd-4ad7-8d69-4ee74d079f19" /></td>
+    <td><img width="500" alt="スクリーンショット 2024-12-20 16 55 19" src="https://github.com/user-attachments/assets/1fc419b8-b54d-4682-a726-6ba1a32940b7" />
+</td>
+  </tr>
 </table>
+
 
 ## 技術スタック
 
